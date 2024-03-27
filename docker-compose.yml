@@ -1,0 +1,26 @@
+services:
+  financial-api:
+    image: node:16-alpine
+    command: sh -c "npm install && npm run start:dev"
+    ports:
+      - 3333:3333
+    working_dir: /financial-api
+    volumes:
+      - ./:/financial-api
+    depends_on:
+      - postgres
+
+  financial-db:
+    image: postgres
+    restart: always
+    volumes:
+      - financial-db-postgres-data:/var/lib/financial-db
+    environment:
+      POSTGRES_DB: financial-db
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+    ports:
+      - 5432:5432
+
+volumes:
+  financial-db-postgres-data:
