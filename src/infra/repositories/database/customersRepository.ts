@@ -31,6 +31,21 @@ export class CustomersRepositoryDatabase implements CustomersRepository {
     await prismaClient.$disconnect();
   }
 
+  async findById(customerId: string): Promise<Customer | null> {
+    const result = await this.client.customer.findUnique({
+      where: { id: customerId },
+    });
+    if (!result) return null;
+    const customer = new Customer({
+      id: result.id,
+      name: result.name,
+      cpfData: result.cpf,
+      email: result.email,
+      password: result.password,
+    });
+    return customer;
+  }
+
   async findByEmail(email: string): Promise<Customer | null> {
     const result = await this.client.customer.findFirst({
       where: { email },
@@ -45,5 +60,14 @@ export class CustomersRepositoryDatabase implements CustomersRepository {
     });
     await prismaClient.$disconnect();
     return customer;
+  }
+
+  async update(customer: Customer): Promise<void> {
+    await this.client.customer.update({
+      data: {
+        name: customer.name,
+      },
+      where: { id: customer.id },
+    });
   }
 }

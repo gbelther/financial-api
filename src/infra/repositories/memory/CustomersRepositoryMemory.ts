@@ -18,10 +18,28 @@ export class CustomersRepositoryMemory implements CustomersRepository {
     this.customers.push(customer);
   }
 
-  async findByEmail(email: string): Promise<Customer> {
+  async findById(customerId: string): Promise<Customer | null> {
+    const customerFound = this.customers.find(
+      (customer) => customer.id === customerId,
+    );
+    if (!customerFound) return null;
+    return customerFound;
+  }
+
+  async findByEmail(email: string): Promise<Customer | null> {
     const customerFound = this.customers.find(
       (customer) => customer.email === email,
     );
     return customerFound;
+  }
+
+  async update(customer: Customer): Promise<void> {
+    const customerFoundIndex = this.customers.findIndex(
+      (customerFound) => customerFound.id === customer.id,
+    );
+    if (customerFoundIndex < 0) throw new Error('Usuário não encontrado.');
+    const customerFound = this.customers[customerFoundIndex];
+    customerFound.name = customer.name;
+    this.customers[customerFoundIndex] = customerFound;
   }
 }

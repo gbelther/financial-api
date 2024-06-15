@@ -1,0 +1,1 @@
+export { UpdateCustomerController } from './UpdateCustomerController';
