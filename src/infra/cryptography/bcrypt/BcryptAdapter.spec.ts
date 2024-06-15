@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { BcryptAdapter } from './BcryptAdapter';
 
-jest.mock('bcrypt', () => ({
+jest.mock('bcryptjs', () => ({
   async hash() {
     return 'any_hash';
   },
