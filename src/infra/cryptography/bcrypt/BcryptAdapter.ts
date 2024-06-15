@@ -1,14 +1,16 @@
+import * as bcrypt from 'bcryptjs';
 import { Hash, HashCompare, HashCompareParams } from '@/domain/cryptography';
-import { hash, compare } from 'bcrypt';
 
 export class BcryptAdapter implements Hash, HashCompare {
   constructor(private readonly salt: number) {}
 
   async hash(plainText: string): Promise<string> {
-    return await hash(plainText, this.salt);
+    const salt = bcrypt.genSaltSync(this.salt);
+    const hashed = await bcrypt.hash(plainText, salt);
+    return plainText;
   }
 
   async compare(params: HashCompareParams): Promise<boolean> {
-    return await compare(params.plainText, params.hash);
+    return await bcrypt.compare(params.plainText, params.hash);
   }
 }

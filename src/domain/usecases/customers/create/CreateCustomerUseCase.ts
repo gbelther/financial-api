@@ -7,7 +7,7 @@ import { Input, Output } from './dtos';
 export class CreateCustomerUseCase implements CreateCustomer {
   constructor(
     private readonly customersRepository: CustomersRepository,
-    readonly hash: Hash
+    readonly hash: Hash,
   ) {}
 
   async execute(input: Input): Promise<Output> {
@@ -19,7 +19,7 @@ export class CreateCustomerUseCase implements CreateCustomer {
     });
 
     const emailInUse = await this.customersRepository.findByEmail(
-      customer.email
+      customer.email,
     );
     if (emailInUse) throw new Error('Este E-mail já está em uso.');
 

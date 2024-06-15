@@ -1,0 +1,1 @@
+export { CustomersRepositoryDatabase } from './customersRepository';

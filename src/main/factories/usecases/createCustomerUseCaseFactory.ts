@@ -3,4 +3,7 @@ import { BcryptAdapter } from '@/infra/cryptography';
 import { makeCustomersRepository } from '../repositories';
 
 export const makeCreateCustomerUseCase = () =>
-  new CreateCustomerUseCase(makeCustomersRepository(), new BcryptAdapter(8));
+  new CreateCustomerUseCase(
+    makeCustomersRepository(),
+    new BcryptAdapter(parseInt(process.env.PASSWORD_SALT)),
+  );

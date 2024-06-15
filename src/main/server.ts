@@ -1,5 +1,6 @@
 import 'module-alias/register';
 import 'dotenv/config';
+import 'reflect-metadata';
 import { app } from './app';
 
 app.listen(3333, () => {
