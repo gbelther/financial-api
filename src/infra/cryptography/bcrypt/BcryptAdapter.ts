@@ -5,9 +5,8 @@ export class BcryptAdapter implements Hash, HashCompare {
   constructor(private readonly salt: number) {}
 
   async hash(plainText: string): Promise<string> {
-    const salt = bcrypt.genSaltSync(this.salt);
-    const hashed = await bcrypt.hash(plainText, salt);
-    return plainText;
+    const hashed = await bcrypt.hash(plainText, this.salt);
+    return hashed;
   }
 
   async compare(params: HashCompareParams): Promise<boolean> {
